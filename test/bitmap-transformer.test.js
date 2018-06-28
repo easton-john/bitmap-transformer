@@ -1,29 +1,24 @@
 const assert = require('assert');
 const { readFile } = require('fs').promises;
 const BitmapTransformer = require('../lib/bitmap-transformer');
-const invert = require('../lib/invert-transform');
+const { invert } = require('../lib/invert-transformer');
+const { join } = require('path');
 
 describe('bitmap file transformer', () => {
     
+    const source = join(__dirname, 'test-bitmap.bmp');
     let buffer = null;
     beforeEach(() => {
-        // TODO: file read './test/test-bitmap.bmp' and put the promise return into buffer variable
+        return readFile(source)
+            .then(b => buffer = b);
     });
 
-    // "pinning" test, or "snapshot" test
     it('test whole transform', () => {
-        // Use the BitmapTransformer class, 
-        // passing in the buffer from the file read
+      
         const bitmap = new BitmapTransformer(buffer);
 
-        // Call .transform(), which will modify the buffer.
-        // With this api, you pass in a transformation function (we are testing with "invert")
         bitmap.transform(invert);
 
-        // After above step, the buffer has been modified
-        // and is accessible via bitmap.buffer.
-
-        // Read the output file we saved earlier as the "standard" expected output file.
         return readFile('./test/inverted-expected.bmp')
             .then(expected => {
                 assert.deepEqual(bitmap.buffer, expected);
