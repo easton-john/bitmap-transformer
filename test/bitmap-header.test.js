@@ -11,7 +11,6 @@ describe('bitmap header', () => {
     beforeEach(() => {
         return readFile(source)
             .then(b => buffer = b);
-        
     });
 
     it('has correct specs', () => {
