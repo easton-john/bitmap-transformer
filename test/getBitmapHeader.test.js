@@ -9,7 +9,7 @@ describe('Bitmap Header', () => {
     it('gathers data from header', () => {
         return getBitmapHeader(source)
             .then(header => {
-                assert.equal(header.pixelOffSet, 54);
+                assert.equal(header.pixelOffset, 54);
                 assert.equal(header.bitsPerPixel, 24);
                 assert.equal(header.fileSize, 30054);
             });

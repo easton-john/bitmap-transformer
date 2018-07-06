@@ -1,17 +1,19 @@
 const assert = require('assert');
-const getBitmapHeader = require('../lib/getBitmapHeader');
+const fs = require('fs');
 const StreamingBitmapTransformer = require('../lib/streaming-bitmap-transformer');
-//const invert = require('../lib/invert-transformer');
+const invert = require('../lib/invert-transformer');
 
 describe('Streaming Bitmap Transformer', () => {
-    let bitmap = null;
     const source = './test/test-bitmap.bmp';
-    beforeEach(() => {
-        bitmap = new StreamingBitmapTransformer(getBitmapHeader(source), source);
-    });
+    const output = './test/inverted-bitmap.bmp';
 
     it('Streams and inverts bitmap', () => {
-        bitmap.transform('./test/inverted-bitmap.bmp');
-        assert.equal('./test/inverted-bitmap.bmp', './test////inverted-expected.bmp');
+        StreamingBitmapTransformer.create(source)
+            .then(bitmapTransformer => {
+                bitmapTransformer.transform(invert, output);
+            });
+            // .then(() => {
+            //     assert.deepEqual(fs.readFile('./test/inverted-bitmap.bmp'), fs.readFile('./test/test-bitmap.bmp'));
+            // });
     });
 });
