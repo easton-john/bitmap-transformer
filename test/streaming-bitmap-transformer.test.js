@@ -5,11 +5,11 @@ const { invert } = require('../lib/invert-transformer');
 
 const readFile = file => fs.readFileSync(file);
 
-describe('Streaming Bitmap Transformer', () => {
+describe('streaming bitmap transformer', () => {
     const source = './test/test-bitmap.bmp';
     const output = './test/inverted-bitmap.bmp';
 
-    it('Streams and inverts bitmap', () => {
+    it('streams and inverts bitmap', () => {
         return StreamingBitmapTransformer.create(source)
             .then(bitmapTransformer => {
                 return bitmapTransformer.transform(invert, output)
